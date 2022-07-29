@@ -3,9 +3,11 @@ const app=Express();
 const dotenv=require('dotenv')
 const cloudinary=require('cloudinary');
 const bodyparser=require('body-parser');
+const cors = require('cors');
 
 dotenv.config({path:"config/config.env"})
 app.use(Express.json());
+app.use(cors());
 app.use(bodyparser.urlencoded({extended:true}))
 const mongoose = require('mongoose');
 require('./db/config')

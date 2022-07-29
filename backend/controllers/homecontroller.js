@@ -1,32 +1,37 @@
 const express = require('express');
 const imageModel = require('../models/imageModel');
-const imgModel = require('../models/imageModel');
+const feature = require('../utils/features');
+
 
 module.exports.getAllImg  = async function getAllImg(req,res) {
     try {
-        let data = await imgModel.find();
-        if(data){
-            res.json({
-                message:'Data Found',
-                data:data
-            })
-        }
-        else{
-            res.json({message:'No Data Found'})
-        }
+        const perpageitem = 9;
+        const Image = new feature(imageModel.find(),req.query).search();
+        let images = await Image.query;   
+        let filteredimagecount=images.length
+        Image.pagination(perpageitem);
+        images = await Image.query.clone();
+        
+        res.status(200).json({
+            success:true,
+            images,
+            perpageitem,
+            filteredimagecount
+        })
+       
     } catch (error) {
-        res.json({message:error});
+        res.json({message:"error"});
     }
 }
 
 module.exports.uploadImg = async function uploadImg(req,res){
     try {
         let data = req.body;
-        let image = await imgModel.create(data);
-        if(image){
-            res.json({
-                message:'Data uploaded Succesfully',
-                data:image
+        let newimage = await imageModel.create(data);
+        if(newimage){   
+            res.status(200).json({
+                success:true,
+                newimage
             })
         }
         else{
@@ -51,9 +56,8 @@ module.exports.updateDetails = async function updateDetails(req,res){
                 imgdata[keys[i]] = data[keys[i]];
             }
             const updatedimg = await imgdata.save();
-            res.json({
-                message:'Details Updated Succesfully',
-                data:updatedimg
+            res.status(200).json({
+                success:true
             })
         }
         else{
@@ -70,9 +74,9 @@ module.exports.deleteImg = async function deleteImg(req,res){
         let id = req.params.id;
         let data = await imageModel.findByIdAndDelete(id);
         if(data){
-            res.json({
-                message:'Img Deleted Succesfully',
-                Image:data
+            res.status(200).json({
+                success:true,
+                data
             })
         }
         else{
@@ -86,11 +90,11 @@ module.exports.deleteImg = async function deleteImg(req,res){
 module.exports.showOne = async function showOne(req,res){
     try{
         let id = req.params.id;
-        let data = await imageModel.findById(id);
-        if(data){
-            res.json({
-                message:'Data Retrived Succesfully',
-                Image:data
+        let image = await imageModel.findById(id);
+        if(image){
+            res.status(200).json({
+                success:true,
+                image
             })
         }
         else{
