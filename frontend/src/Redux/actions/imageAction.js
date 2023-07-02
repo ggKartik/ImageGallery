@@ -24,7 +24,7 @@ export const imageaction = (keyword="",currentPage=1) => async (dispatch) => {
     dispatch({
       type: SHOW_ALL_IMAGE_REQUEST,
     });
-    let link = `http://localhost:2808/home/?keyword=${keyword}&page=${currentPage}`;
+    let link = `https://image-gallery-ggkartik.vercel.app//home/?keyword=${keyword}&page=${currentPage}`;
     const { data } = await axios.get(link);
     dispatch({
       type: SHOW_ALL_IMAGE_SUCCESS,
@@ -46,7 +46,7 @@ export const addimageaction = (imageData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    let link = `http://localhost:2808/home`;
+    let link = `https://image-gallery-ggkartik.vercel.app//home`;
     const { data } = await axios.post(link,imageData,config);
     dispatch({
       type: ADD_IMAGE_SUCCESS,
@@ -69,7 +69,7 @@ export const oneimageaction = (id) => async (dispatch) => {
     dispatch({
       type: IMAGE_REQUEST,
     });
-    let link = `http://localhost:2808/home/${id}`;
+    let link = `https://image-gallery-ggkartik.vercel.app//home/${id}`;
     const { data } = await axios.get(link);
     dispatch({
       type: IMAGE_SUCCESS,
@@ -91,7 +91,7 @@ export const editimageaction = (imageData,id) => async (dispatch) => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
-    let link = `http://localhost:2808/home/${id}`;
+    let link = `https://image-gallery-ggkartik.vercel.app//home/${id}`;
     const { data } = await axios.patch(link,imageData,config);
     dispatch({
       type: EDIT_IMAGE_SUCCESS,
@@ -110,7 +110,7 @@ export const deleteimageaction = (id) => async (dispatch) => {
     dispatch({
       type: DELETE_IMAGE_REQUEST,
     });
-    let link = `http://localhost:2808/home/${id}`;
+    let link = `https://image-gallery-ggkartik.vercel.app//home/${id}`;
     const { data } = await axios.delete(link);
     dispatch({
       type: DELETE_IMAGE_SUCCESS,
